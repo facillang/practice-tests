@@ -10,6 +10,11 @@ import org.junit.Test;
 public class LambdaFunctionPublishTest {
 
     @Test
+    public void publishVersion() {
+        // TODO
+    }
+
+    @Test
     public void publishNewVersion() {
         // TODO
     }

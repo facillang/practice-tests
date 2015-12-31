@@ -40,16 +40,20 @@ public class LambdaFunctionPublish extends AbstractLambdaFileHandler {
         if (!doesLambdaFunctionExist()) {
             return false;
         }
+        PublishVersionResult result = publishVersion();
+        return ((result != null) && fileHandler.saveFile(file, result.getVersion()));
+    }
+
+    private PublishVersionResult publishVersion() {
         try {
-            PublishVersionResult publishVersionResult = awsLambda.publishVersion(new PublishVersionRequest()
+            return awsLambda.publishVersion(new PublishVersionRequest()
                     .withFunctionName(functionName)
                     .withDescription(versionDescription));
-            return fileHandler.saveFile(file, publishVersionResult.getVersion());
         } catch (AmazonClientException e) {
             System.out.printf("^error^ Lambda function [ %s ] does not exist^r^%n",
                     this.functionName);
-            return false;
         }
+        return null;
     }
 
 }
