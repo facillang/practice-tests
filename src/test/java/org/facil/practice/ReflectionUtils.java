@@ -7,17 +7,25 @@ import java.lang.reflect.Field;
  */
 public class ReflectionUtils {
 
-    public static <T,U> void setNonAccesibleField(Class<?> clazz, T obj, String fieldName, U value) throws IllegalAccessException, NoSuchFieldException {
-        if(clazz == null){
+    public static void setNonAccessibleField(Object object, String fieldName, Object value) throws IllegalAccessException,
+                                                                                    NoSuchFieldException {
+        Field field = getField(object.getClass(), fieldName);
+        field.setAccessible(true);
+        field.set(object, value);
+    }
+
+    private static Field getField(Class<?> clazz, String fieldName) throws NoSuchFieldException {
+        Field field = null;
+        for(Class<?> cls = clazz; cls != null; cls = cls.getSuperclass()){
+            try{
+                field = cls.getDeclaredField(fieldName);
+            }catch (NoSuchFieldException nsme){
+                //If not ignored cannot walk through class hierarchy
+            }
+        }
+        if(field == null){
             throw new NoSuchFieldException();
         }
-        try{
-            Field field = clazz.getDeclaredField(fieldName);
-            field.setAccessible(true);
-            field.set(obj, value);
-            return;
-        }catch (NoSuchFieldException nsfe){
-            setNonAccesibleField(clazz.getSuperclass(), obj, fieldName, value);
-        }
+        return field;
     }
 }
