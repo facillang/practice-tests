@@ -64,6 +64,7 @@ public class DefaultFileHandlerTest {
 
     @Test
     public void SaveFileIOException(){
+        //using answer seems more appropriate here than using when
         File file = mock(File.class, new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {

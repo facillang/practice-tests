@@ -114,6 +114,7 @@ public class LambdaFunctionPublishTest {
         String fileName = "test.txt";
         String version = "9.9";
         String versionDescription = "This version adds new functionality";
+        //using answer seems more appropriate here than using when
         FileHandler fileHandler = mock(DefaultFileHandler.class, new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
