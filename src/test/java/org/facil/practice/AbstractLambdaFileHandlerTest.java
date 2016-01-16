@@ -1,8 +1,6 @@
 package org.facil.practice;
 
 import org.junit.Test;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,18 +19,9 @@ public class AbstractLambdaFileHandlerTest {
 
     @Test
     public void createFileIfNotExists() throws IOException, NoSuchFieldException, IllegalAccessException {
-        File file = mock(File.class, new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                if(invocation.getMethod().getName().equals("exists")){
-                    return Boolean.FALSE;
-                }
-                if(invocation.getMethod().getName().equals("createNewFile")){
-                    return Boolean.TRUE;
-                }
-                return invocation.callRealMethod();
-            }
-        });
+        File file = mock(File.class);
+        when(file.exists()).thenReturn(Boolean.FALSE);
+        when(file.createNewFile()).thenReturn(Boolean.TRUE);
         AbstractLambdaFileHandler abstractLambdaFileHandler = mock(AbstractLambdaFileHandler.class, CALLS_REAL_METHODS);
         setNonAccessibleField(abstractLambdaFileHandler, "file", file);
         assertTrue(abstractLambdaFileHandler.createFileIfNotExists());
@@ -43,18 +32,9 @@ public class AbstractLambdaFileHandlerTest {
 
     @Test
     public void donotCreateNewFileIfExists() throws IOException, NoSuchFieldException, IllegalAccessException {
-        File file = mock(File.class, new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                if(invocation.getMethod().getName().equals("exists")){
-                    return Boolean.TRUE;
-                }
-                if(invocation.getMethod().getName().equals("createNewFile")){
-                    return Boolean.FALSE;
-                }
-                return invocation.callRealMethod();
-            }
-        });
+        File file = mock(File.class);
+        when(file.exists()).thenReturn(Boolean.TRUE);
+        when(file.createNewFile()).thenReturn(Boolean.FALSE);
         AbstractLambdaFileHandler abstractLambdaFileHandler = mock(AbstractLambdaFileHandler.class, CALLS_REAL_METHODS);
         setNonAccessibleField(abstractLambdaFileHandler, "file", file);
         assertTrue(abstractLambdaFileHandler.createFileIfNotExists());
@@ -65,18 +45,9 @@ public class AbstractLambdaFileHandlerTest {
     @Test
     public void donotCreateFileWhenFileOperationsReturnFalse() throws NoSuchFieldException, IllegalAccessException, IOException {
         String fileName = "test.txt";
-        File file = mock(File.class, new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                if(invocation.getMethod().getName().equals("exists")){
-                    return Boolean.FALSE;
-                }
-                if(invocation.getMethod().getName().equals("createNewFile")){
-                    return Boolean.FALSE;
-                }
-                return invocation.callRealMethod();
-            }
-        });
+        File file = mock(File.class);
+        when(file.exists()).thenReturn(Boolean.FALSE);
+        when(file.createNewFile()).thenReturn(Boolean.FALSE);
         AbstractLambdaFileHandler abstractLambdaFileHandler = mock(AbstractLambdaFileHandler.class, CALLS_REAL_METHODS);
         setNonAccessibleField(abstractLambdaFileHandler, "file", file);
         setNonAccessibleField(abstractLambdaFileHandler, "fileName", fileName);
@@ -87,15 +58,8 @@ public class AbstractLambdaFileHandlerTest {
 
     @Test(expected = IOException.class)
     public void createFileIfNotExistsWhenExceptionForFileOperations() throws NoSuchFieldException, IllegalAccessException, IOException {
-        File file = mock(File.class, new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                if(true) {
-                    throw new IOException();
-                }
-                return invocation.callRealMethod();
-            }
-        });
+        File file = mock(File.class);
+        when(file.exists()).thenThrow(IOException.class);
         AbstractLambdaFileHandler abstractLambdaFileHandler = mock(AbstractLambdaFileHandler.class, CALLS_REAL_METHODS);
         setNonAccessibleField(abstractLambdaFileHandler, "file", file);
         abstractLambdaFileHandler.createFileIfNotExists();
@@ -106,18 +70,9 @@ public class AbstractLambdaFileHandlerTest {
     @Test
     public void createFileIfNotExistsFalseWhenIOException() throws NoSuchFieldException, IllegalAccessException, IOException {
         String fileName = "test.txt";
-        File file = mock(File.class, new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                if(invocation.getMethod().getName().equals("exists")){
-                    return Boolean.FALSE;
-                }
-                if(invocation.getMethod().getName().equals("createNewFile")){
-                    throw new IOException();
-                }
-                return invocation.callRealMethod();
-            }
-        });
+        File file = mock(File.class);
+        when(file.exists()).thenReturn(Boolean.FALSE);
+        when(file.createNewFile()).thenThrow(IOException.class);
         AbstractLambdaFileHandler abstractLambdaFileHandler = mock(AbstractLambdaFileHandler.class, CALLS_REAL_METHODS);
         setNonAccessibleField(abstractLambdaFileHandler, "file", file);
         setNonAccessibleField(abstractLambdaFileHandler, "fileName", fileName);
