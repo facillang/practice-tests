@@ -15,23 +15,14 @@ import org.junit.Test;
  */
 public class DefaultFileHandlerTest {
 
-    String version;
-    BufferedReader mockBufferedReader;
-    BufferedWriter mockBufferedWritter;
-    DefaultFileHandler defaultFileHandlerTest;
-
-    @Before
-    public void initialize() {
-        version = "version";
-        mockBufferedWritter = mock(BufferedWriter.class);
-        mockBufferedReader  = mock(BufferedReader.class);
-        defaultFileHandlerTest = new DefaultFileHandler(mockBufferedWritter, mockBufferedReader);
-
-    }
-
     @Test
     public void saveFile() throws Exception {
         // TODO
+        String version = "version";
+        BufferedWriter mockBufferedWritter = mock(BufferedWriter.class);
+        BufferedReader mockBufferedReader  = mock(BufferedReader.class);
+        DefaultFileHandler defaultFileHandlerTest = new DefaultFileHandler(mockBufferedWritter, mockBufferedReader);
+
         assertEquals(defaultFileHandlerTest.saveFile(null), false);
 
         doNothing().when(mockBufferedWritter).write(anyString());
@@ -45,6 +36,11 @@ public class DefaultFileHandlerTest {
     @Test
     public void readFile() throws Exception {
         // TODO
+        String version = "version";
+        BufferedWriter mockBufferedWritter = mock(BufferedWriter.class);
+        BufferedReader mockBufferedReader  = mock(BufferedReader.class);
+        DefaultFileHandler defaultFileHandlerTest = new DefaultFileHandler(mockBufferedWritter, mockBufferedReader);
+
         doReturn(version).when(mockBufferedReader).readLine();
         assertEquals(defaultFileHandlerTest.readFile(), version);
 

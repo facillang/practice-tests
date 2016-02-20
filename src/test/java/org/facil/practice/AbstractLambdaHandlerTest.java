@@ -27,22 +27,11 @@ public class AbstractLambdaHandlerTest {
         }
     }
 
-    AbstractLambdaHandler mockAbstractLambdaHandler;
-    String functionName;
-    AWSLambda awsLambda;
-    AbstractClassImplement abstractClassImplement;
-
-    @Before
-    public void initialize(){
-        functionName = "FunctionName";
-        awsLambda = mock(AWSLambda.class);
-        mockAbstractLambdaHandler = mock(AbstractLambdaHandler.class);
-        abstractClassImplement = new AbstractClassImplement(functionName, awsLambda);
-    }
-
     @Test
     public void doesLambdaFunctionExist() {
         // TODO
+        AbstractLambdaHandler mockAbstractLambdaHandler = mock(AbstractLambdaHandler.class);
+
         when(mockAbstractLambdaHandler.doesLambdaFunctionExist()).thenCallRealMethod();
         doReturn(true).when(mockAbstractLambdaHandler).doesLambdaFunctionExist(true);
         assertEquals(mockAbstractLambdaHandler.doesLambdaFunctionExist(), true);
@@ -51,6 +40,10 @@ public class AbstractLambdaHandlerTest {
     @Test
     public void doesLambdaFunctionExistWithArgument() {
         // TODO
+        String functionName = "FunctionName";
+        AWSLambda awsLambda = mock(AWSLambda.class);
+        AbstractClassImplement abstractClassImplement = new AbstractClassImplement(functionName, awsLambda);
+
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         String errorMessage = "^error^ Lambda function [ FunctionName ] does not exist^r^";
@@ -70,6 +63,8 @@ public class AbstractLambdaHandlerTest {
     public void getAliasVersion() {
         // TODO
         String aliasType = "AliasType";
+        AbstractLambdaHandler mockAbstractLambdaHandler = mock(AbstractLambdaHandler.class);
+
         when(mockAbstractLambdaHandler.getAliasVersion(aliasType)).thenCallRealMethod();
         doReturn(aliasType).when(mockAbstractLambdaHandler).getAliasVersion(aliasType, true);
         assertEquals(mockAbstractLambdaHandler.getAliasVersion(aliasType), aliasType);
@@ -78,6 +73,9 @@ public class AbstractLambdaHandlerTest {
     @Test
     public void getAliasVersionWithTwoArguments() {
         // TODO
+        String functionName = "FunctionName";
+        AWSLambda awsLambda = mock(AWSLambda.class);
+        AbstractClassImplement abstractClassImplement = new AbstractClassImplement(functionName, awsLambda);
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         String functionVersion = "FunctionVersion";

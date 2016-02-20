@@ -20,32 +20,17 @@ import java.io.*;
  */
 public class LambdaFunctionPublishTest {
 
-    String functionName;
-    String versionDescription;
-    String fileName;
-    BufferedWriter bufferedWriter;
-    BufferedReader bufferedReader;
-    AWSLambda awsLambda;
-    File file;
-    FileHandler fileHandler;
-    LambdaFunctionPublish lambdaFunctionPublish;
-
-    @Before
-    public void initialize(){
-        functionName = "FunctionName";
-        versionDescription = "VersionDescription";
-        fileName = "FileName";
-        bufferedWriter = mock(BufferedWriter.class);
-        bufferedReader = mock(BufferedReader.class);
-        awsLambda = mock(AWSLambda.class, RETURNS_DEEP_STUBS);
-        file = mock(File.class);
-        fileHandler = mock(FileHandler.class);
-        lambdaFunctionPublish = new LambdaFunctionPublish(functionName, versionDescription, awsLambda, fileName, file, fileHandler);
-    }
-
     @Test
     public void publishVersion() {
         // TODO
+        String functionName = "FunctionName";
+        String versionDescription = "VersionDescription";
+        String fileName = "FileName";
+        AWSLambda awsLambda = mock(AWSLambda.class, RETURNS_DEEP_STUBS);
+        File file = mock(File.class);
+        FileHandler fileHandler = mock(FileHandler.class);
+        LambdaFunctionPublish lambdaFunctionPublish = new LambdaFunctionPublish(functionName, versionDescription, awsLambda, fileName, file, fileHandler);
+
         when(file.exists()).thenReturn(false);
         assertTrue(!lambdaFunctionPublish.publishNewVersion());
 
@@ -74,6 +59,14 @@ public class LambdaFunctionPublishTest {
     @Test
     public void publishNewVersion() {
         // TODO
+        String functionName = "FunctionName";
+        String versionDescription = "VersionDescription";
+        String fileName = "FileName";
+        AWSLambda awsLambda = mock(AWSLambda.class, RETURNS_DEEP_STUBS);
+        File file = mock(File.class);
+        FileHandler fileHandler = mock(FileHandler.class);
+        LambdaFunctionPublish lambdaFunctionPublish = new LambdaFunctionPublish(functionName, versionDescription, awsLambda, fileName, file, fileHandler);
+
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         String errorMessage = "^error^ Lambda function [ FunctionName ] does not exist^r^";
